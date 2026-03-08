@@ -1,0 +1,25 @@
+This video from **Google for Developers** explains how to use the **SMS Retriever API** for Android to verify phone numbers automatically without requiring full SMS reading permissions.
+
+Based on your previous interest in Android software and the `keytool` error you encountered, this API is highly relevant as it involves generating app-specific hash strings (often using tools like `keytool` or similar deterministic methods) to ensure the SMS is routed to the correct application.
+
+### **Key Steps for SMS Verification**
+
+* **Initiate Verification:** Use the `Smart Lock` hint selector to help the user select their phone number easily [[01:00](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=60)].
+* **Start the Retriever Client:** Your app gets an instance of the `SmsRetrieverClient` and starts a task to listen for an incoming SMS. This listener stays active for up to 5 minutes [[01:21](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=81)].
+* **Construct the Server Message:** The SMS sent from your server must follow a strict format [[02:01](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=121)]:
+* Maximum of 140 bytes.
+* Must start with a defined header.
+* Must end with a **unique 11-character hash string** that identifies your specific app [[02:13](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=133)].
+
+
+* **Receive and Parse:** When the SMS arrives, Google Play services broadcasts an intent. Your app uses a `BroadcastReceiver` to intercept this, extract the message text, and parse the verification code [[03:04](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=184)].
+
+### **Connection to your `keytool` Error**
+
+The "11-character hash" mentioned at [[02:35](http://www.youtube.com/watch?v=jzWYv8y2v1c&t=155)] is generated based on your app's package name and its **certificate**. In Android development, you often use the **`keytool`** command to extract the certificate's SHA-256 fingerprint, which is a prerequisite for generating that specific hash string.
+
+If you are still seeing the error **"'keytool' is not recognized,"** it usually means the Java Development Kit (JDK) `bin` folder is not in your system's PATH environment variable. Ensuring your Java environment is fully set up will be necessary to generate the hashes required for this API.
+
+For more details, you can visit the [official SMS Retriever documentation](https://developers.google.com/identity/sms-retriever/overview).
+
+**Video Link:** [https://www.youtube.com/watch?v=jzWYv8y2v1c](https://www.youtube.com/watch?v=jzWYv8y2v1c)

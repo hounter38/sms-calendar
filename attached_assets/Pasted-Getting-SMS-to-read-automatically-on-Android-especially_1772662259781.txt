@@ -1,0 +1,52 @@
+Getting SMS to read automatically on Android—especially for a coding project like yours—is a "legit" challenge because Google has strictly limited SMS access to protect privacy.
+
+However, since you're using **Replit**, there is a powerful "hacker" workaround that bypasses the need for custom Android builds or `keytool` fixes.
+
+### The "Legit" Workaround: SMS-to-Webhook Gateway
+
+Instead of trying to make your code "reach into" the phone's messages, you use a small gateway app that "pushes" the SMS out to your Replit as soon as it arrives.
+
+#### 1. The GitHub Tool: [Android SMS Gateway Webhook](https://github.com/bogkonstantin/android_income_sms_gateway_webhook)
+
+This is an open-source, lightweight app. You install the APK on your Android phone, and it listens for incoming texts. When one arrives, it sends a `POST` request to a URL you provide.
+
+* **Step 1:** Download the APK from the [Releases page](https://github.com/bogkonstantin/android_income_sms_gateway_webhook/releases) of that GitHub repo.
+* **Step 2:** In the app, set the **Webhook URL** to your Replit's public address (e.g., `https://your-repl-name.your-username.repl.co/sms-endpoint`).
+* **Step 3:** In your Replit code, create a simple route to "catch" that data:
+```javascript
+app.post('/sms-endpoint', (req, res) => {
+  const message = req.body.text;
+  const sender = req.body.from;
+  console.log(`New SMS from ${sender}: ${message}`);
+  // Trigger your decryption or Calendar logic here!
+  res.status(200).send('Received');
+});
+
+```
+
+
+
+---
+
+### 2. The "Pro" Workaround (No App Needed): Twilio Connector
+
+Since you are already using **Replit Connectors**, the most stable way to do this without any local setup is to use a **Twilio number**.
+
+1. In your Replit sidebar, go to **Connectors**.
+2. Search for **Twilio** and connect it.
+3. Ask the Replit Agent: *"Set up a webhook so that when my Twilio number receives an SMS, it automatically triggers my Google Calendar event script."*
+4. **The Catch:** You have to tell people to text your *Twilio* number, not your personal phone number.
+
+---
+
+### 3. Summary of your "1-Hour" Plan
+
+| Method | Ease of Setup | Best For... |
+| --- | --- | --- |
+| **Android SMS Gateway (GitHub)** | Medium | Using your **actual phone number** and messages. |
+| **Twilio (Replit Connector)** | Easy | Fast, professional automation without touching your phone. |
+| **Manual Paste** | Instant | Testing your timezone/calendar logic right now. |
+
+**Pro-Tip for Calgary Timezone:** Since you are fixing the timezone code now, the **Android SMS Gateway** is the best "GitHub find" because it sends the `receivedStamp` (timestamp) along with the text. This ensures your Replit knows exactly when the message hit your phone in Calgary time.
+
+**Would you like me to help you write the specific Replit route that parses the message from that GitHub app?**

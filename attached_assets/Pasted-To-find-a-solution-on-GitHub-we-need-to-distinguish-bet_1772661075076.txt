@@ -1,0 +1,44 @@
+To find a solution on GitHub, we need to distinguish between two things: **receiving** the SMS (which usually requires hardware or a service) and **decrypting** it (which requires the key).
+
+Since you previously had issues with `keytool` and Android environments, I've selected projects that are relatively straightforward to set up.
+
+---
+
+### 1. SMS Receiver (Android/Java)
+
+For receiving SMS messages on an Android device to process them, these are the most reliable repositories:
+
+* **[SmsReceiver (by joielechong)](https://github.com/joielechong/SMSReceiver):** A simple library designed to handle incoming SMS (like OTPs). It uses standard Android BroadcastReceivers.
+* **Note:** This is a library you add to an Android Studio project. It doesn't require complex command-line tools once your project is set up.
+
+
+* **[SMS-IE (by tmo1)](https://github.com/tmo1/sms-ie):** A full, open-source Android app that allows you to export/import SMS messages as JSON or CSV files. This is great if you want to pull messages off a phone and decrypt them on a PC later.
+
+### 2. The Decrypter (Universal/Web)
+
+Encryption in SMS isn't standard (it's usually done by an app before sending). To decrypt a message, you need a tool that matches the encryption method (usually AES or Base64).
+
+* **[Classify (by cheatsnake)](https://github.com/cheatsnake/classify):** A very clean API and tool specifically for encrypting and decrypting text messages.
+* **Language:** TypeScript/JavaScript.
+* **Setup:** Since you mentioned having JavaScript-related tools on your PC, you can run this with `npm install` and `npm start`.
+
+
+* **[CyberChef (GCHQ)](https://gchq.github.io/CyberChef/):** While not just a "GitHub repo," this is the "Swiss Army Knife" of decryption used by pros. It runs entirely in your browser (no installation).
+* **How to use:** Paste your "gibberish" SMS into the **Input** box, drag "AES Decrypt" or "Base64" into the **Recipe** column, and enter your key.
+
+
+
+---
+
+### ⚠️ A Note on GSM Decryption
+
+If you are looking for tools to "crack" or decrypt the **GSM signal itself** (the raw airwaves), the standard repository is **[GSMDecryption](https://github.com/0xh4di/GSMDecryption)**.
+
+> **Warning:** This is highly technical, requires specific hardware (like an RTL-SDR dongle), and utilizes "Kraken" to crack A5/1 encryption. Based on your previous trouble with `keytool`, I wouldn't recommend starting here as it requires a very complex Linux environment setup.
+
+### Summary Recommendation:
+
+1. Use **[SmsReceiver](https://github.com/joielechong/SMSReceiver)** to get the text into your app.
+2. Use **[CyberChef](https://gchq.github.io/CyberChef/)** or the **[Classify API](https://github.com/cheatsnake/classify)** to turn that encrypted text back into readable English.
+
+**Would you like me to help you write a simple JavaScript snippet to decrypt a message using a specific key?**
